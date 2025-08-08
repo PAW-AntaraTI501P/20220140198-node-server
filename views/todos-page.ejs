@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Daftar Tugas Saya</title>
+
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Poppins:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      body {
+        background: linear-gradient(
+          45deg,
+          #ff5757 0%,
+          #ff9f43 50%,
+          #ffea00 100%
+        );
+        background-attachment: fixed;
+        font-family: "Poppins", sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .card {
+        max-width: 1000px;
+        width: 100%;
+        min-height: 600px;
+        background-color: rgba(255, 255, 255, 0.9);
+        border: none;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        padding: 40px;
+      }
+
+      .app-title {
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .app-title span {
+        font-size: 2rem;
+        margin-left: 10px;
+      }
+      
+      .app-subtitle {
+        text-align: center;
+        font-weight: 400;
+        color: #777;
+        margin-bottom: 25px;
+      }
+      
+      .form-inline .form-control {
+        border-radius: 10px;
+        border: 1px solid #ddd;
+        flex-grow: 1;
+        margin-right: 10px;
+        font-family: "Inter", sans-serif;
+      }
+
+      .btn-tambah {
+        background: linear-gradient(90deg, #ff5757, #ff9f43);
+        border: none;
+        color: white;
+        font-weight: 600;
+        border-radius: 10px;
+        padding: 10px 20px;
+      }
+      
+      .btn-tambah:hover {
+        opacity: 0.8;
+      }
+
+      .list-group-item {
+        background-color: #fff;
+        border: none;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        padding: 15px 20px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .list-group-item .task-text {
+        font-weight: 500;
+        color: #444;
+        font-family: "Poppins", sans-serif;
+      }
+
+      .list-group-item .task-id {
+        font-weight: 600;
+        color: #888;
+        font-family: "Poppins", sans-serif;
+        margin-right: 10px;
+      }
+
+      .btn-edit, .btn-delete {
+        border-radius: 10px;
+        font-weight: 500;
+      }
+      
+      .btn-edit {
+        background-color: #ffc107 !important;
+        border-color: #ffc107 !important;
+        color: white !important;
+      }
+      
+      .btn-delete {
+        background-color: #dc3545 !important;
+        border-color: #dc3545 !important;
+        color: white !important;
+      }
+
+      .form-edit .form-control-sm {
+        border-radius: 8px;
+        font-family: "Inter", sans-serif;
+      }
+      
+      .footer-button {
+        background: linear-gradient(90deg, #ff5757, #ff9f43);
+        border: none;
+        color: white;
+        font-weight: 600;
+        border-radius: 10px;
+        padding: 12px 25px;
+        text-align: center;
+        display: block;
+        width: 100%;
+        margin-top: 25px;
+      }
+      
+      .footer-button:hover {
+        opacity: 0.8;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h1 class="app-title">Daftar Tugas Saya <span role="img" aria-label="Clipboard">📋</span></h1>
+      <p class="app-subtitle">Kelola tugas harianmu dengan mudah.</p>
+
+      <form action="/todos-list/add" method="POST" class="form-inline mb-4">
+        <input
+          type="text"
+          name="task"
+          class="form-control"
+          placeholder="Tugas baru..."
+          required
+        />
+        <button type="submit" class="btn btn-tambah">Tambah</button>
+      </form>
+
+      <% if (todos && todos.length > 0) { %>
+      <ul class="list-group">
+        <% todos.forEach(function(todo) { %>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <div>
+            <span class="task-id">#<%= todo.id %></span>
+            <span class="task-text"><%= todo.task %></span>
+          </div>
+          <div class="d-flex align-items-center">
+            <form
+              action="/todos-list/edit/<%= todo.id %>?_method=PUT"
+              method="POST"
+              class="form-edit d-flex mr-2"
+            >
+              <input
+                type="text"
+                name="task"
+                value="<%= todo.task %>"
+                class="form-control form-control-sm"
+                required
+              />
+              <button type="submit" class="btn btn-warning btn-sm btn-edit">Edit</button>
+            </form>
+
+            <form
+              action="/todos-list/delete/<%= todo.id %>?_method=DELETE"
+              method="POST"
+            >
+              <button
+                type="submit"
+                class="btn btn-danger btn-sm btn-delete"
+                onclick="return confirm('Yakin mau hapus tugas ini?')"
+              >
+                Hapus
+              </button>
+            </form>
+          </div>
+        </li>
+        <% }); %>
+      </ul>
+      <% } else { %>
+      <p class="text-center text-muted mt-4">Belum ada tugas yang tersedia. Mulai dengan menambahkan satu!</p>
+      <% } %>
+
+      <a href="/" class="btn footer-button">Kembali ke Beranda</a>
+    </div>
+  </body>
+</html>

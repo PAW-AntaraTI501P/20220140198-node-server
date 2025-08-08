@@ -1,29 +1,80 @@
-const express = require('express');
-const path = require('path');
+require("dotenv").config();
+const express = require("express");
 const app = express();
-const PORT = 3000;
 
-// Middleware untuk logging setiap request
-app.use((req, res, next) => {
-  console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
-  next(); // lanjut ke handler berikutnya
+const todoRoutes = require("./routes/todo.js");
+const { todos } = require("./routes/todo.js");
+const port = process.env.PORT;
+const methodOverride = require('method-override');
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(methodOverride('_method'));
+app.use("/todos", todoRoutes);
+
+app.set("view engine", "ejs"); //utk ke halaman ejs
+
+app.get("/", (req, res) => {
+  res.render("index"); //render file ke index.ejs
 });
 
-// Set view engine ke EJS
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
-
-// Routing ke halaman index
-app.get('/', (req, res) => {
-  res.render('index'); // memanggil views/index.ejs
+app.get("/contact", (req, res) => {
+  res.render("contact"); //render ke file contact.ejs
 });
 
-// Routing ke halaman contact
-app.get('/contact', (req, res) => {
-  res.render('contact'); // memanggil views/contact.ejs
+app.get("/todos-data", (req, res) => {
+  res.json(todos);
+});
+app.get("/todos-list", (req, res) => {
+  res.render("todos-page", { todos: todos });
+});
+app.post("/todos-list/add", (req, res) => {
+  const { task } = req.body;
+  if (!task || task.trim() === "") {
+    return res.status(400).send("Task tidak boleh kosong");
+  }
+
+  const newTodo = {
+    id: todos.length > 0 ? todos[todos.length - 1].id + 1 : 1,
+    task: task.trim()
+  };
+  todos.push(newTodo);
+
+  res.redirect("/todos-list");
 });
 
-// Menjalankan server
-app.listen(PORT, () => {
-  console.log(`Server berjalan di http://localhost:${PORT}`);
+app.put("/todos-list/edit/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  const { task } = req.body;
+  const todo = todos.find(t => t.id === id);
+
+  if (!todo) {
+    return res.status(404).send("Tugas tidak ditemukan");
+  }
+  if (!task || task.trim() === "") {
+    return res.status(400).send("Task tidak boleh kosong");
+  }
+
+  todo.task = task.trim();
+  res.redirect("/todos-list");
+});
+
+app.delete("/todos-list/delete/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  const index = todos.findIndex(t => t.id === id);
+
+  if (index === -1) {
+    return res.status(404).send("Tugas tidak ditemukan");
+  }
+
+  todos.splice(index, 1);
+  res.redirect("/todos-list");
+});
+
+app.use((req, res) => {
+  res.status(404).send("404 - Page not found");
+});
+
+app.listen(port, () => {
+  console.log(`Server running on http://localhost:${port}`);
 });
