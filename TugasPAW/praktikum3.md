@@ -4,8 +4,8 @@
 ## Nama: Inggar Kinanthi Sandong Guritno
 
 ### ✅ Tampilan Halaman Index
-![Index](screenshots/index.png)
+![Index](../screenshots/index.png)
 
 ### ✅ Tampilan Halaman Contact
-![Contact](screenshots/contact.png)
+![Contact](../screenshots/contact.png)
 
