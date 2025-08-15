@@ -5,6 +5,9 @@ const todoRoutes = require("./routes/tododb.js");
 const { todos } = require("./routes/todo.js"); // Menambahkan ini untuk mengimpor data dummy
 const db = require("./database/db");
 const port = process.env.PORT;
+const expressLayouts = require("express-ejs-layouts");
+app.use(expressLayouts);
+app.set('layout', 'layouts/main-layouts');
 
 app.use(express.urlencoded({ extended: false }));
 

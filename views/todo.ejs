@@ -13,6 +13,7 @@
     <div class="container mt-5">
       <h1 class="text-center">Todo List</h1>
 
+      <!-- Form to Add New Todo -->
       <form id="addTodoForm" class="my-4">
         <div class="input-group">
           <input
@@ -28,7 +29,7 @@
         </div>
       </form>
 
-
+      <!-- List of Todos -->
       <ul id="todoList" class="list-group">
         <% todos.forEach(todo=> { %>
         <li
@@ -39,7 +40,7 @@
           </span>
           <div>
             <button
-              class="btn btn-warning btn-sm mr-1 editBtn"
+              class="btn btn-sm btn-warning mr-2 editBtn"
               data-id="<%= todo.id %>"
             >
               Edit
@@ -55,7 +56,7 @@
         <% }); %>
       </ul>
 
-  
+      <!-- Edit Todo Modal -->
       <div
         id="editModal"
         class="modal fade"
@@ -127,7 +128,7 @@
             });
           }
         });
-// Delete a todo
+        // Delete a todo
         $(".deleteBtn").on("click", function () {
           const id = $(this).data("id");
           $.ajax({
