@@ -1,12 +1,14 @@
 # Perubahan 
 
-## Halaman sebelum perubahan
+## Halaman pertama
 ![halaman1](../screenshots/halaman1.png)
+## Halaman sebelum tambah update
+![halaman1](../screenshots/halaman2.png)
 
-## Halaman Sebelum tambah update
+## Halaman Sesudah tambah update
 ![halaman2](../screenshots/update1.png)
 
-## Halaman Setelah di update
+## Halaman Sebelum di update
 ![halaman2](../screenshots/update2.png)
 
 ## Halaman Sesudah update
