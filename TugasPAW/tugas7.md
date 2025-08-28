@@ -1,7 +1,13 @@
 # Tugas 7
 
-## Halaman 1: Tampilan Browser Halaman todo-view
-![halaman1](../screenshots/halaman1.png)
+## 1. Tampilan Browser Halaman todo-view
+![todo-view](../screenshots/todoo-view.png)
 
-## Halaman 2: Tampilan Todo Array
-![halaman2](../screenshots/halaman2.png)
+## 2. Tampilan Todo Array
+![todo-array](../screenshots/todo-array.png)
+
+## 3. Tampilan Index
+![index](../screenshots/indexx.png)
+
+## 4. Tampilan Contact
+![contact](../screenshots/contactt.png)
